@@ -1,13 +1,15 @@
 <template>
-  <Index />
+ <form-financiamento />
 </template>
 
 <script>
-import Index from './pages'
+
+import FormFinanciamento from './components/Form/index.vue';
+
 export default {
-    name: "App",
-    components: {
-      Index
-    }
-};
+  name: 'App',
+  components: {
+    FormFinanciamento
+  }
+}
 </script>
