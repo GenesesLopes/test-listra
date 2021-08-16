@@ -1,7 +1,13 @@
 #!/bin/bash
 
+## Frontend
+
+cd frontend
+yarn
+
+
 ## Backend
-# cd backend
+# cd ../backend
 
 # if [ ! -f ".env" ]; then
 #     cp .env.example .env

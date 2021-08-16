@@ -52,4 +52,4 @@ RUN composer config -g cache-dir "/var/www/.composer/cache" && \
 
 RUN yarn config set cache-folder /var/www/.cache/yarn/v6
 
-EXPOSE 9000 3000
+EXPOSE 9000 8080
