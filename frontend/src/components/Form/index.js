@@ -1,7 +1,9 @@
 import { BIcon } from 'bootstrap-vue'
 import { VMoney } from 'v-money'
+import _ from 'lodash';
 import parsePrice from '../../helpers/parsePrice';
 import financingCalculation from '../../utils/financingCalculation';
+import { getVehicles } from '../../services/vehicles';
 export default {
     name: 'Form',
     components: {
@@ -13,6 +15,10 @@ export default {
             dataVehicles: [],
             calculateFinancing: [],
             initialValue: 0.00,
+            current_page: 1,
+            per_page: 2,
+            last_page: 0, 
+            total: 0,
             money: {
                 decimal: ',',
                 thousands: '.',
@@ -23,30 +29,42 @@ export default {
     },
     directives: { money: VMoney },
     watch: {
-        selected: function (data) {
+        selected: async function (data) {
             if (data === null) {
                 this.initialValue = 0.00;
                 this.calculateFinancing = [];
+                this.dataVehicles = [];
+                this.dataVehicles = await this.getData();
             }
         }
     },
     methods: {
-        async getData() {
+        async onSearch(search, loading) {
+            if (search.length) {
+                try {
+                    loading(true)
+                    await this.search(search, this)
+                } catch (error) {
+                    console.error(error)
+                } finally {
+                    loading(false);
+                }
+            }
+        },
+        search: _.debounce(async (search, vm) => {
+            vm.dataVehicles = await vm.getData(search)
+        }, 350),
+        async getData(description = '') {
             try {
-                const restData = await new Promise((resolve) => {
-                    setTimeout(() => {
-                        resolve(
-                            [
-                                { id: 'a', description: 'Carro 01', price: 100000.35 },
-                                { id: 'b', description: 'Carro 02', price: 120.30 },
-                                { id: 'c', description: 'Carro 03', price: 140.98 },
-                            ]
-                        )
-                    }, 2000)
-                });
-                this.dataVehicles = [...this.dataVehicles, ...restData];
+                let {data} =  await getVehicles(description)
+                this.current_page = data.current_page, 
+                this.last_page = data.last_page
+                this.per_page = data.per_page, 
+                this.total = data.total
+                return data.data
             } catch (error) {
                 console.error(error)
+                throw error
             }
 
         },
@@ -78,6 +96,6 @@ export default {
     },
     async mounted() {
         this.dataVehicles = [];
-        await this.getData();
+        this.dataVehicles = await this.getData();
     },
 }
