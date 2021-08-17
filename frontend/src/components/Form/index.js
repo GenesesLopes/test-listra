@@ -24,7 +24,7 @@ export default {
     directives: { money: VMoney },
     watch: {
         selected: function (data) {
-            if (data === null){
+            if (data === null) {
                 this.initialValue = 0.00;
                 this.calculateFinancing = [];
             }
@@ -59,20 +59,20 @@ export default {
         },
         handleCalculate() {
             let valueParse = this.parseInitalValue(this.initialValue)
-            
             this.calculateFinancing = [];
-            this.calculateFinancing = financingCalculation(valueParse, this.selected.price)
-            console.log(
-                // this.selected,
-                valueParse,
-                this.selected.price,
-                this.calculateFinancing
-            )
-            
+            if (valueParse >= 0 && valueParse < this.selected.price) {
+                this.calculateFinancing = financingCalculation(valueParse, this.selected.price)
+            } else {
+                this.$bvToast.toast('O valor inicial do financiamento deve ser maior ou igual a 0, e menor que o valor do veículo', {
+                    title: 'Error',
+                    variant: 'danger',
+                    solid: true
+                })
+            }
         }
     },
     filters: {
-        parsePriceValue(price){
+        parsePriceValue(price) {
             return parsePrice(price)
         }
     },
