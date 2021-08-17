@@ -11,10 +11,12 @@ const dataFaker = [
 
 const returnFake = (data, description, current_page, per_page) => {
     
-    let last_page = Math.ceil(data.length / per_page);
     let dataFilter = []
+    
     if(description !== '')
         data = data.filter(data => data.description.indexOf(description) !== -1);
+    
+    let last_page = Math.ceil(data.length / per_page);
     
     if (current_page <= last_page) {
         let limit = (current_page * per_page) - per_page
