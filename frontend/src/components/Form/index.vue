@@ -9,9 +9,15 @@
                     <v-select
                         v-model="selected"
                         :options="dataVehicles"
+                        @search="onSearch"
+                        :filterable="false"
                         label="description"
                         placeholder="Selecione um veículo"
-                    />
+                    >
+                        <template slot="no-options">
+                            Não foi encontrado nenhum veículo com essa descrição
+                        </template>
+                    </v-select>
                 </b-form-group>
                 <b-container v-if="selected != null">
                     <b-form-row>
@@ -44,8 +50,8 @@
                         </b-col>
                         <b-col sm="2">
                             <b-form-group>
-                                <b-button 
-                                    variant="success" 
+                                <b-button
+                                    variant="success"
                                     class="align-button"
                                     type="submit"
                                 >
@@ -57,8 +63,16 @@
                     <b-row v-if="calculateFinancing.length">
                         <b-col>
                             <p class="h6">Valores simulados para você</p>
-                            <div v-for="(dataFinancing, index ) in calculateFinancing" :key="index">
-                                <span>{{dataFinancing.installment + 'x de ' + dataFinancing.value}}</span>
+                            <div
+                                v-for="(dataFinancing,
+                                index) in calculateFinancing"
+                                :key="index"
+                            >
+                                <span>{{
+                                    dataFinancing.installment +
+                                        "x de " +
+                                        dataFinancing.value
+                                }}</span>
                             </div>
                         </b-col>
                     </b-row>
