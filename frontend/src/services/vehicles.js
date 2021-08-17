@@ -1,12 +1,12 @@
 const dataFaker = [
-    { id: 'a', description: 'Onix Branco', price: 1000.35 },
-    { id: 'b', description: 'Corsa Vermelho', price: 120.30 },
-    { id: 'c', description: 'Corsa Branco', price: 140.98 },
-    { id: 'd', description: 'Onix Vermelho', price: 140.98 },
-    { id: 'e', description: 'Gol Vermelho', price: 140.98 },
-    { id: 'f', description: 'Palio Branco', price: 140.98 },
-    { id: 'g', description: 'Gol Vermelho', price: 140.98 },
-    { id: 'h', description: 'Palio Vermelho', price: 140.98 },
+    { description: 'Onix Branco', price: 1000.35 },
+    { description: 'Corsa Vermelho', price: 120.30 },
+    { description: 'Corsa Branco', price: 140.98 },
+    { description: 'Onix Vermelho', price: 140.98 },
+    { description: 'Gol Branco', price: 140.98 },
+    { description: 'Palio Branco', price: 140.98 },
+    { description: 'Gol Vermelho', price: 140.98 },
+    { description: 'Palio Vermelho', price: 140.98 },
 ];
 
 const returnFake = (data, description, current_page, per_page) => {
@@ -37,10 +37,18 @@ const returnFake = (data, description, current_page, per_page) => {
     }
 }
 
-const getVehicles = async (description = '', current_page = 1, per_page = 2) => {
+const getVehicles = async (description = '', current_page = 1, per_page = 20) => {
     return await new Promise((resolve) => {
         setTimeout(() => {
-            resolve(returnFake(dataFaker, description, current_page, per_page))
+            let newDataFake = [];
+            for(let i = 0; i < 100; i++){
+                let random = Math.floor(Math.random() * dataFaker.length)
+                newDataFake.push({
+                    id: i,
+                    ...dataFaker[random]
+                })
+            }
+            resolve(returnFake(newDataFake, description, current_page, per_page))
         }, 2000)
     });
 }

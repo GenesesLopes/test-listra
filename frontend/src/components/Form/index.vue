@@ -10,12 +10,19 @@
                         v-model="selected"
                         :options="dataVehicles"
                         @search="onSearch"
+                        @open="onOpen"
+                        @close="onClose"
                         :filterable="false"
                         label="description"
                         placeholder="Selecione um veículo"
                     >
                         <template slot="no-options">
                             Não foi encontrado nenhum veículo com essa descrição
+                        </template>
+                        <template #list-footer>
+                            <li v-show="hasNextPage" ref="load" class="loader">
+                                Carregando mais opções...
+                            </li>
                         </template>
                     </v-select>
                 </b-form-group>
@@ -87,5 +94,10 @@
         margin-top: 32px;
     }
 }
+.loader {
+  text-align: center;
+  color: #bbbbbb;
+}
+
 </style>
 <script src="./index.js" />
