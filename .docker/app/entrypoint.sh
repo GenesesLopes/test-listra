@@ -5,18 +5,17 @@
 cd frontend
 yarn
 
+if [ ! -d "dist" ]; then
+    yarn build
+fi
 
 ## Backend
-# cd ../backend
+cd ../backend
 
-# if [ ! -f ".env" ]; then
-#     cp .env.example .env
-# fi
+if [ ! -f ".env" ]; then
+    cp .env.example .env
+fi
 
-# if [ ! -f ".env.testing" ]; then
-#     cp .env.testing.example .env.testing
-# fi
-
-# composer install
+composer install
 
 php-fpm
