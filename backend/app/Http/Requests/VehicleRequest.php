@@ -26,7 +26,7 @@ class VehicleRequest extends FormRequest
         return [
             'per_page' => 'nullable|integer',
             'current_page' => 'nullable|integer',
-            'search' => 'string'
+            'q' => 'string'
         ];
     }
 }

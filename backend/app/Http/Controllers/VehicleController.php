@@ -12,7 +12,7 @@ class VehicleController extends Controller
     {
         $per_page  = $request->input('per_page',10);
         $current_page = $request->input('current_page', 1);
-        $search = $request->input('search', '');
+        $search = $request->input('q', '');
         
         if($search !== ''){
             return Vehicle::where('description','like',"%{$search}%")
