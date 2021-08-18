@@ -13,6 +13,7 @@ services:
         entrypoint: dockerize -wait tcp://db-listra:3306 -timeout 40s .docker/app/entrypoint.sh
         depends_on:
             - db-listra
+            - redis-listra
     
     nginx-listra:
         build: ./nginx
@@ -26,6 +27,14 @@ services:
             - ../.:/var/www
         depends_on:
             - api-listra
+
+    redis-listra:
+        image: redis:6.2-alpine
+        container_name: redis-listra
+        ports: 
+            - "6379:6379"
+        restart: always
+        tty: true
     
     db-listra:
         build: ./mysql

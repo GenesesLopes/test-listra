@@ -45,6 +45,8 @@ export default {
                 this.initialValue = 0.00;
                 this.calculateFinancing = [];
                 this.description = '';
+                this.current_page = INITIAL_VALUES.current_page
+                this.per_page = INITIAL_VALUES.per_page
                 this.dataVehicles = await this.getData();
             }
         }
@@ -73,6 +75,7 @@ export default {
             const dataResponse = await vm.getData(search)
             vm.dataVehicles = dataResponse
             vm.description = search
+            await vm.startObserve()
         }, 350),
         async getData(description = '') {
             try {
@@ -113,11 +116,14 @@ export default {
                 })
             }
         },
-        async onOpen() {
+        async startObserve(){
             if (this.hasNextPage) {
                 await this.$nextTick()
                 this.observer.observe(this.$refs.load)
             }
+        },
+        async onOpen() {
+            await this.startObserve();
         },
         onClose() {
             this.observer.disconnect()
