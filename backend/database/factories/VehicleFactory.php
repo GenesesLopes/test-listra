@@ -15,6 +15,16 @@ class VehicleFactory extends Factory
     protected $model = Vehicle::class;
 
     /**
+     * Get a new Faker instance.
+     *
+     * @return \Faker\Generator
+     */
+    public function withFaker()
+    {
+        return \Faker\Factory::create('pt_BR');
+    }
+
+    /**
      * Define the model's default state.
      *
      * @return array
@@ -22,7 +32,8 @@ class VehicleFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'description' => $this->faker->colorName() .' '. $this->faker->colorName(),
+            'price' => $this->faker->randomFloat(2,max: 1000000)
         ];
     }
 }
