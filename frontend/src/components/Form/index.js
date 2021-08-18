@@ -123,7 +123,7 @@ export default {
             }
         },
         async onOpen() {
-            this.startObserve();
+            await this.startObserve();
         },
         onClose() {
             this.observer.disconnect()
