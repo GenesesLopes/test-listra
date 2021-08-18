@@ -16,7 +16,8 @@ RUN apt-get update && \
     $PHPIZE_DEPS
 
 ## Instalando pacotes php
-RUN docker-php-ext-install pdo pdo_mysql mysqli exif zip bcmath
+RUN docker-php-ext-install pdo pdo_mysql mysqli exif zip bcmath && \
+    pecl install redis && docker-php-ext-enable redis
 
 ##Istalação do node
 COPY --from=node:lts /usr/local/lib/. /usr/local/lib/.
